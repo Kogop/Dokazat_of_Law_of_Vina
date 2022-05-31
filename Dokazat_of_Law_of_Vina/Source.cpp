@@ -3,7 +3,6 @@
 #include<fstream>
 #include<stdlib.h>
 
-
 using namespace std;
 
 double R = 0.0;
@@ -16,39 +15,35 @@ double b = 2.898 * pow(10, -3);
 double lyambda = 0.0;
 double x = 0.0;
 
+double f(double l) {
+	double k = l * exp(l);
+	double j = exp(l) - 1.0;
+	
+	return ((k/j) - 5.0);
+}
+
+double aa = 0.00001, bb = 100.0, cc = 0.0;
+
 int main() {
-	for (double i = 0.0; i < 100.0; i+= 0.00001)
+	while ((fabs(bb - aa)) > 0.00001)
 	{
-		if (   ( (i * exp(i)) 
-			/ 
-			(exp(i) - 1.0) ) 
-			- 5.0 < 0.00001 && ((i * exp(i))
-				/
-				(exp(i) - 1.0))
-			- 5.0 >= 0) {
-			x = i;
-			printf("%f ", x);
-			cout << endl;
-			break;
+		cc = (aa + bb) / 2;
+		if (f(aa) * f(cc) < 0.0) {
+			bb = cc;
+		}
+		else {
+			aa = cc;
 		}
 	}
-
-
+	printf("%f ", cc);
+	cout << endl;
 	ofstream File("Rezultati_vichisleniy.xls");
-
 
 	for (int i = 100; i < 600; i++)
 	{
-
 		lyambda = (h * c / x / k / i);
-
-		File << lyambda <<"\t"; File << i << endl;
-
-
-
+		File << lyambda << "\t"; File << i << endl;
 	}
 	File.close();
-
-
 	return 1;
 }
